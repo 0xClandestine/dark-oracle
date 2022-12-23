@@ -7,17 +7,19 @@ import "../test/DarkOracle.t.sol";
 
 contract VerifySignatureScript is Script, Test {
     uint8 v = 27;
-    bytes32 r = 0xd7679e42380474bdb723606c76727baa5adcc497ccdc36dc1cbb66fe4b3d3691;
-    bytes32 s = 0x71789c98ba79c67528d1bc115bbae3263f4ce140b6f92d80f0f3f66fdf976eb3;
+    bytes32 r =
+        0xe3098f266ada8315f1ffdd3a98d744cb8f027af63738678a40432504a6e0b08d;
+    bytes32 s =
+        0x1420fcd6294f171add38326c0dd7a7328accad1043b7d24cd5520a4a11894b75;
 
     function run() public {
+        DarkOracleMock mock =
+            DarkOracleMock(0x5FbDB2315678afecb367f032d93F642f64180aa3);
+
         vm.startBroadcast();
-
-        bool valid = DarkOracleMock(0x5FbDB2315678afecb367f032d93F642f64180aa3)
-            .verifyPacket(12345, 1500000000, v, r, s);
-
-        assertTrue(valid);
-
+        bool valid = mock.verifyPacket(420, 16717551430, v, r, s);
         vm.stopBroadcast();
+
+        console.log(valid);
     }
 }
